@@ -25,14 +25,12 @@ pageTitle.addEventListener('click', () => {
 }) 
 
 window.onpopstate = () => {
-  console.log(history.state);
   if (history.state == null || history.state.page == 'home') {
     document.body.classList.remove('settings');
     document.body.classList.remove('single-entry');
     let pageTitle = document.querySelector('h1');
     pageTitle.innerHTML = 'Journal Entries';
   } else if (history.state.page == 'settings') {
-    console.log('wuuuttttt');
     document.body.classList.remove('single-entry');
     document.body.classList.add('settings'); 
     let pageTitle = document.querySelector('h1');
@@ -51,8 +49,6 @@ window.onpopstate = () => {
  * Changes the "page" (state) that your SPA app is currently set to
  */
 router.setState = function() {
-  console.log('ummm');
-
   /**
    * - There are three states that your SPA app will have
    *    1. The home page

@@ -10,13 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   .then(response => response.json())
   .then(entries => {
     let i = 1;
-    entries.forEach(entry => {
-      console.log(i);    
+    entries.forEach(entry => {  
       let newPost = document.createElement('journal-entry');
       newPost.entry = entry;
       newPost.id = i;
       newPost.addEventListener('click', () => {
-        console.log(i);
         document.body.classList.add('single-entry');
         let pageTitle = document.querySelector('h1');
         pageTitle.innerHTML = 'Entry ' + newPost.id;
