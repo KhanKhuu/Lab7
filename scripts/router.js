@@ -2,10 +2,57 @@
 
 export const router = {};
 
+let settingsButton = document.querySelector('img');
+settingsButton.addEventListener('click', () => {
+  if (window.location.hash != '#settings') {
+    console.log(window.location);
+    document.body.classList.remove('single-entry');
+    document.body.classList.add('settings');
+    let pageTitle = document.querySelector('h1');
+    pageTitle.innerHTML = 'Settings';
+    history.pushState({page: 'settings'}, "settings", "#settings");
+  }
+}) 
+
+let pageTitle = document.querySelector('h1');
+pageTitle.addEventListener('click', () => {
+  document.body.classList.remove('settings');
+  document.body.classList.remove('single-entry');
+  pageTitle.innerHTML = 'Journal Entries';
+  if (history.state != null && history.state != 'home') {
+    history.pushState({page: 'home'}, "home", "#home");
+  }
+}) 
+
+window.onpopstate = () => {
+  console.log(history.state);
+  if (history.state == null || history.state.page == 'home') {
+    document.body.classList.remove('settings');
+    document.body.classList.remove('single-entry');
+    let pageTitle = document.querySelector('h1');
+    pageTitle.innerHTML = 'Journal Entries';
+  } else if (history.state.page == 'settings') {
+    console.log('wuuuttttt');
+    document.body.classList.remove('single-entry');
+    document.body.classList.add('settings'); 
+    let pageTitle = document.querySelector('h1');
+    pageTitle.innerHTML = 'Settings';
+  } else if (history.state.page.startsWith('entry')) {
+    document.body.classList.remove('settings');
+    document.body.classList.add('single-entry');
+    let pageTitle = document.querySelector('h1');
+    let entryNumber = history.state.page[history.state.page.search(/\d/)];
+    pageTitle.innerHTML = 'Entry ' + entryNumber;
+  }
+};
+
+
 /**
  * Changes the "page" (state) that your SPA app is currently set to
  */
 router.setState = function() {
+  console.log('ummm');
+
   /**
    * - There are three states that your SPA app will have
    *    1. The home page

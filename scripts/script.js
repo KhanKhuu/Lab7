@@ -7,12 +7,28 @@ const setState = router.setState;
 
 document.addEventListener('DOMContentLoaded', () => {
   fetch('https://cse110lab6.herokuapp.com/entries')
-    .then(response => response.json())
-    .then(entries => {
-      entries.forEach(entry => {
-        let newPost = document.createElement('journal-entry');
-        newPost.entry = entry;
-        document.querySelector('main').appendChild(newPost);
-      });
+  .then(response => response.json())
+  .then(entries => {
+    let i = 1;
+    entries.forEach(entry => {
+      console.log(i);    
+      let newPost = document.createElement('journal-entry');
+      newPost.entry = entry;
+      newPost.id = i;
+      newPost.addEventListener('click', () => {
+        console.log(i);
+        document.body.classList.add('single-entry');
+        let pageTitle = document.querySelector('h1');
+        pageTitle.innerHTML = 'Entry ' + newPost.id;
+        let entryPageElement = document.querySelector('entry-page');
+        entryPageElement.remove();
+        let newEntry = document.createElement('entry-page');
+        newEntry.entry = newPost.entry;
+        document.querySelector('body').appendChild(newEntry);
+        history.pushState({page: 'entry' + newPost.id}, 'entry' + newPost.id, "#entry" + newPost.id);
+      })
+      ++i;
+      document.querySelector('main').appendChild(newPost);
     });
+  });
 });
